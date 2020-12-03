@@ -39,7 +39,5 @@ fs.readFile('./input', 'utf8', (err, input) => {
     })
     
     console.log(slopesTrees)
-    console.log(slopesTrees.reduce((acc, d, i) => {
-        return i === 0 ? d : acc * d
-    }, 0))
+    console.log(slopesTrees.reduce((acc, d, i) => acc * d, 1))
 })
