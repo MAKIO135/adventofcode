@@ -6,7 +6,7 @@ fs.readFile('./input', 'utf8', (err, input) => {
 
     const groups = input.split('\n\n').map(g => g.split('\n').join(''))
 
-    const uniquesPerGroup = groups.map(g => [...new Set(g)].length)
+    const uniquesPerGroup = groups.map(g => new Set(g).size)
 
     const sum = uniquesPerGroup.reduce((acc, curr) => acc + curr)
 
