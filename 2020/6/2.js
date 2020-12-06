@@ -13,9 +13,11 @@ fs.readFile('./input', 'utf8', (err, input) => {
     const uniquesPerGroup = groups.map(g => [...new Set(g.answers)])
     // console.log(uniquesPerGroup)
 
-    const count = (arr, a) => arr.filter(d => d === a).length
+    Array.prototype.count = function(a) { 
+        return this.filter(d => d === a).length
+    }
 
-    const commonsPerGroup = groups.map((g, i) => uniquesPerGroup[i].filter(u => count(g.answers, u) === g.nbPerson).length)
+    const commonsPerGroup = groups.map((g, i) => uniquesPerGroup[i].filter(u => g.answers.count(u) === g.nbPerson).length)
     // console.log(commonsPerGroup)
 
 
