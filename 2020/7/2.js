@@ -22,7 +22,7 @@ fs.readFile('./input', 'utf8', (err, input) => {
         acc[container] = contained
         return acc
     }, {})
-    console.log(rules)
+    // console.log(rules)
 
     let sum = 0
     const findContained = (color, nb) => {
