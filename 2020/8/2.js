@@ -7,47 +7,36 @@ fs.readFile('./input', 'utf8', (err, input) => {
     const initInstructions = () => input.split('\n').map((d, i) => {
         let [cmd, value] = d.split(' ')
         value = parseInt(value)
-
-        return {
-            cmd,
-            value
-        }
+        return { cmd, value }
     })
 
     const startProgram = (change = {}) => {
         const instructions = initInstructions()
         const visited = new Set()
         
-        let index = change.index || 0
-        let acc = change.acc || 0
+        let {i: index = 0, acc = 0} = change
         change = undefined
 
         const goto = i => {
             if(visited.has(i) || i < 0 || i >= instructions.length) return i
             visited.add(i)
             
-            const inst = instructions[i]
+            let {cmd, value} = instructions[i]
             
             // have we set a change already
-            if(i !== index && !change && inst.cmd !== 'acc') {
+            if(i !== index && !change && cmd !== 'acc') {
                 // store state change
-                change = {
-                    index: i,
-                    acc
-                }
+                change = { i, acc };
 
                 // change current command
-                inst.cmd = (inst.cmd === 'jmp') ? 'nop' : 'jmp'
+                cmd = cmd === 'jmp' ? 'nop' : 'jmp'
             }
 
-            if(inst.cmd === 'acc') acc += inst.value
+            if(cmd === 'acc') acc += value
             
             // goto next instruction
-            i += inst.cmd === 'jmp' ? inst.value : 1
-
-            return goto(i)
+            return goto(cmd === 'jmp' ? i + value : i + 1)
         }
-        
         index = goto(index)
 
         if(index !== instructions.length) return startProgram(change)
