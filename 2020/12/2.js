@@ -13,28 +13,36 @@ fs.readFile('./input', 'utf8', (err, input) => {
 
     const dirs = [
         [ 1, 0 ], // East 0
-        [ 0, -1], // South 1
+        [ 0, -1], // Sout 1
         [-1, 0 ], // West 2
-        [ 0, 1], // North 3
+        [ 0, 1 ], // North 3
     ]
 
     let dir = 0 // East
     const pos = [0, 0]
+    const waypoint = [10, 1]
 
     cmds.forEach(({action, value}) => {
         // console.log({ action, value })
         if(['L', 'R'].includes(action)) {
-            dir = (dir + 8 + ((value / 90) * (action === 'L' ? -1 : 1))) % 4
+            const n = value / 90
+            for(let i = 0; i < n; i ++) {
+                if(action === 'L') [waypoint[0], waypoint[1]] = [-waypoint[1], waypoint[0]]
+                else [waypoint[0], waypoint[1]] = [waypoint[1], -waypoint[0]]
+            }
+
+            dir = (dir + 8 + value / 90 * (action === 'L' ? -1 : 1)) % 4
         }
         else if(action === 'F') {
-            pos[0] += value * dirs[dir][0]
-            pos[1] += value * dirs[dir][1]
+            pos[0] += value * waypoint[0]
+            pos[1] += value * waypoint[1]
         }
         else {
             const index = ['E', 'S', 'W', 'N'].indexOf(action)
-            pos[0] += value * dirs[index][0]
-            pos[1] += value * dirs[index][1]
+            waypoint[0] += value * dirs[index][0]
+            waypoint[1] += value * dirs[index][1]
         }
+        console.log({cmd: `${action}${value}`, pos, waypoint})
     })
     
     console.log({ pos })
