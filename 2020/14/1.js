@@ -11,20 +11,13 @@ fs.readFile('./input', 'utf8', (err, input) => {
             ...(cmd !== 'mask' && { addr: parseInt(/(\d+)/g.exec(cmd)[0]) })
         }
     })
-    console.clear()
-    console.log({ cmds })
 
     let mask
-    const parseMask = mask => mask.split('')
-    
     const mems = {}
-    const writeValue = ({ addr, value, mask }) => mems[addr] = value.split('').map((d, i) => mask[i] === 'X' ? d : mask[i]).join('')
-
-    cmds.forEach(d => {
-        if(d.cmd === 'mask') mask = parseMask(d.value)
-        else writeValue({ ...d, mask })
+    cmds.forEach(({cmd, value, addr}) => {
+        if(cmd === 'mask') mask = value.split('')
+        else mems[addr] = value.split('').map((d, i) => mask[i] === 'X' ? d : mask[i]).join('')
     })
-    // console.log({ mems })
 
     const result = Object.values(mems).reduce((acc, curr) => acc + parseInt(curr, 2), 0)
     console.log({ result })
