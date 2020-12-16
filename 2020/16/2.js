@@ -10,18 +10,15 @@ fs.readFile('./input', 'utf8', (err, input) => {
     let [rules, ticket, nearby] = input.split('\n\n').map(d => d.split('\n'))
     ticket.shift()
     ticket = ticket[0].split(',').map(d => parseInt(d))
-    // log(ticket)
     
     rules = rules.map(rule => ({
         name: rule.split(':')[0],
         ranges: rule.match(/\d+-\d+/g).map(range => range.split('-').map(d => parseInt(d)))
     }))
-    // log(rules)
     
     nearby.shift()
     nearby = nearby.map(t => t.split(',').map(d => parseInt(d)))
         .filter(range => range.every(n => rules.some(rule => rule.ranges.some(range =>  range[0] <= n && n <= range[1]))))
-    // log(nearby)
     
     const fixed = []
     
