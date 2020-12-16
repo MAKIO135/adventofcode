@@ -10,11 +10,8 @@ fs.readFile('./input', 'utf8', (err, input) => {
     ticket.shift()
     nearby.shift()
 
-    rules = rules.map(rule => rule.match(/(\d+)-(\d+)/g).map(range => range.split('-').map(d => parseInt(d)))).flat()
-    log(rules)
-
+    rules = rules.map(rule => rule.match(/\d+-\d+/g).map(range => range.split('-').map(d => parseInt(d)))).flat()
     nearby = nearby.map(t => t.split(',').map(d => parseInt(d))).flat()
-    log(nearby)
 
     let errorRate = nearby
         .filter(n => !rules.some(range =>  range[0] <= n && n <= range[1]))
