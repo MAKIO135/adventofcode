@@ -2,7 +2,6 @@ const { clear, log } = require('console')
 clear()
 
 const fs = require('fs')
-const { cursorTo } = require('readline')
 
 fs.readFile('./input', 'utf8', (err, input) => {
     if (err) throw err
