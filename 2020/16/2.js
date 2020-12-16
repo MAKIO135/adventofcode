@@ -33,7 +33,6 @@ fs.readFile('./input', 'utf8', (err, input) => {
             }
             rule.index = index.length === 1 ? index[0] : index
         })
-        rules.forEach(rule => console.log(`${rule.name}: ${rule.index}`))
     }
 
     const propagate = () => {
@@ -41,7 +40,6 @@ fs.readFile('./input', 'utf8', (err, input) => {
             const rule = rules[i]
             if(typeof rule.index === 'number') fixed.push(...rules.splice(i, 1))
         }
-        console.log(fixed.length, rules.length)
         
         rules.forEach(rule => {
             fixed.forEach(({index}) => {
@@ -55,7 +53,7 @@ fs.readFile('./input', 'utf8', (err, input) => {
 
     observe()
     while(rules.length) propagate()
-    fixed.forEach(rule => console.log(`${rule.name}: ${rule.index}`))
+    // fixed.forEach(rule => console.log(`${rule.name}: ${rule.index}`))
 
     const result = fixed.filter(({name}) => name.startsWith('departure'))
         .reduce((acc, curr) => acc * ticket[curr.index], 1)
