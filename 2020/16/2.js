@@ -17,7 +17,7 @@ fs.readFile('./input', 'utf8', (err, input) => {
     
     nearby.shift()
     nearby = nearby.map(t => t.split(',').map(d => parseInt(d)))
-        .filter(range => range.every(n => rules.some(rule => rule.ranges.some(range =>  range[0] <= n && n <= range[1]))))
+        .filter(range => range.every(n => rules.some(rule => rule.ranges.some(range => range[0] <= n && n <= range[1]))))
     
     const fixed = []
     
@@ -49,7 +49,7 @@ fs.readFile('./input', 'utf8', (err, input) => {
 
     observe()
     while(rules.length) propagate()
-    // fixed.forEach(rule => console.log(`${rule.name}: ${rule.index}`))
+    // fixed.forEach(rule => log(`${rule.name}: ${rule.index}`))
 
     const result = fixed.filter(({name}) => name.startsWith('departure'))
         .reduce((acc, curr) => acc * ticket[curr.index], 1)
