@@ -6,8 +6,7 @@ const fs = require('fs')
 fs.readFile('./input', 'utf8', (err, input) => {
     if (err) throw err
 
-    let [rules, ticket, nearby] = input.split('\n\n').map(d => d.split('\n'))
-    ticket.shift()
+    let [rules, , nearby] = input.split('\n\n').map(d => d.split('\n'))
     nearby.shift()
 
     rules = rules.map(rule => rule.match(/\d+-\d+/g).map(range => range.split('-').map(d => parseInt(d)))).flat()
