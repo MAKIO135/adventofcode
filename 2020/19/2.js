@@ -37,9 +37,11 @@ fs.readFile('./input', 'utf8', (err, input) => {
     // 0: 8 11
     // 8: 42 | 42 8
     // 11: 42 31 | 42 11 31
-    const regex42 = new RegExp(`\\b(${fixed[42].replace(/\(/g, '(?:')})`)
-    const regex31 = new RegExp(`(${fixed[31].replace(/\(/g, '(?:')})\\b`)
-    const regex4231 = new RegExp((`\\b(${fixed[42]})[ab]+(${fixed[31]})\\b`).replace(/\(/g, '(?:'))
+    fixed[42] = fixed[42].replace(/\(/g, '(?:')
+    fixed[31] = fixed[31].replace(/\(/g, '(?:')
+    const regex42 = new RegExp(`^(${fixed[42]})`)
+    const regex31 = new RegExp(`(${fixed[31]})$`)
+    const regex4231 = new RegExp((`^(${fixed[42]})[ab]+(${fixed[31]})$`))
 
     let valids = messages.filter(m => regex4231.test(m))
         .map(m => {
