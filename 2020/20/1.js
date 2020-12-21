@@ -21,19 +21,12 @@ fs.readFile('./test', 'utf8', (err, input) => {
         return { id, sides }
     })
     
-    // fibd adjacent tiles
-    for(const tile of tiles) {
-        for(const t of tiles) {
-            if(tile.id !== t.id){
-                Object.keys(t.sides).forEach(k => {
-                    if(tile.sides[k]) {
-                        tile.sides[k].add(t.id)
-                    }
-                })
-            }
-        }
-        Object.entries(tile.sides).forEach(([key, set]) => log(`${key}: ${set.size}`))
-    }
+    // find adjacent tiles
+    tiles.forEach(tile => {
+        tiles.filter(t => tile.id !== t.id).forEach(t =>{
+            Object.keys(t.sides).forEach(k => tile.sides[k] ? tile.sides[k].add(t.id) : 0)
+        })
+    })
 
     // corners have only 2 sides connected
     const corners = tiles.filter(t => Object.values(t.sides).filter(set => set.size > 0).length === 2)
