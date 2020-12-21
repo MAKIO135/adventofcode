@@ -37,18 +37,30 @@ fs.readFile('./input', 'utf8', (err, input) => {
     // 0: 8 11
     // 8: 42 | 42 8
     // 11: 42 31 | 42 11 31
-    const regex42 = new RegExp(`\\b(${fixed[42].replace(/\(/g, ('(?:'))})`)
-    const regex31 = new RegExp(`(${fixed[31].replace(/\(/g, ('(?:'))})\\b`)
-    const regex4231 = new RegExp((`\\b(${fixed[42]})[ab]+(${fixed[31]})\\b`).replace(/\(/g, ('(?:')))
+    const regex42 = new RegExp(`\\b(${fixed[42].replace(/\(/g, '(?:')})`)
+    const regex31 = new RegExp(`(${fixed[31].replace(/\(/g, '(?:')})\\b`)
+    const regex4231 = new RegExp((`\\b(${fixed[42]})[ab]+(${fixed[31]})\\b`).replace(/\(/g, '(?:'))
 
     let valids = messages.filter(m => regex4231.test(m))
         .map(m => {
-            while(regex42.test(m)) m = m.replace(regex42, '')
-            while(regex31.test(m)) m = m.replace(regex31, '')
+            // if(m.match(new RegExp(`(${fixed[42].replace(/\(/g, '(?:')})`, 'g')).length <= m.match(new RegExp(`(${fixed[31].replace(/\(/g, '(?:')})`, 'g')).length) return m
+            let copy = m
+            let test42 = 0
+            let test31 = 0
+            while(regex42.test(m) || regex31.test(m)) {
+                if(regex42.test(m)) test42 ++
+                if(regex31.test(m)) test31 ++
+                m = m.replace(regex42, '').replace(regex31, '')
+            }
+            
+            // there should be at least 1 more test42 than test31
+            if(test31 >= test42) {
+                m = copy
+                // log({ m, test42, test31 })
+            }
             return m
         })
         .filter(m => m === '')
-    log(valids.length)
 
-    // !341 too high
+    log(valids.length)
 })
