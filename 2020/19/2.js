@@ -43,8 +43,6 @@ fs.readFile('./input', 'utf8', (err, input) => {
 
     let valids = messages.filter(m => regex4231.test(m))
         .map(m => {
-            // if(m.match(new RegExp(`(${fixed[42].replace(/\(/g, '(?:')})`, 'g')).length <= m.match(new RegExp(`(${fixed[31].replace(/\(/g, '(?:')})`, 'g')).length) return m
-            let copy = m
             let test42 = 0
             let test31 = 0
             while(regex42.test(m) || regex31.test(m)) {
@@ -54,10 +52,8 @@ fs.readFile('./input', 'utf8', (err, input) => {
             }
             
             // there should be at least 1 more test42 than test31
-            if(test31 >= test42) {
-                m = copy
-                // log({ m, test42, test31 })
-            }
+            if(test31 >= test42) m = 'fail'
+
             return m
         })
         .filter(m => m === '')
