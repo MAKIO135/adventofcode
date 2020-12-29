@@ -3,10 +3,29 @@ const { clear, log } = require('console')
 clear()
 log('/'.repeat(100))
 
-fs.readFile('./test', 'utf8', (err, input) => {
+fs.readFile('./input', 'utf8', (err, input) => {
     if (err) throw err
 
-    input = input.split('\n')
+    const directions = input.split('')
+    const pos = { x: 0, y: 0 }
+    const positions = [`${pos.x}|${pos.y}`]
+    directions.forEach(d => {
+        switch(d) {
+            case '^':
+                pos.y ++
+                break
+            case 'v':
+                pos.y --
+                break
+            case '>':
+                pos.x ++
+                break
+            case '<':
+                pos.x --
+                break
+        }
+        positions.push(`${pos.x}|${pos.y}`)
+    })
     
-    log(input)
+    log(new Set(positions).size)
 })
