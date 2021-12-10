@@ -13,7 +13,6 @@ fs.readFile('./input', 'utf8', (err, input) => {
     //log(input)
 
     const lowPoints = []
-
     const map = []
     for(let y = 0; y < input.length; y++) {
         map.push(new Array(input[0].length).fill('.'))
@@ -30,26 +29,25 @@ fs.readFile('./input', 'utf8', (err, input) => {
     //log(lowPoints.reduce((acc, {d}) => acc + (d + 1), 0))
 
     const checkNeigbours = ({x,y,d}, i) => {
-        if(map[y-1]?.[x] === '.' && input[y-1][x] < 9 && input[y-1][x] === d + 1) {
+        if(map[y-1]?.[x] === '.' && input[y-1][x] < 9 && input[y-1][x] > d) {
             map[y-1][x] = i
             checkNeigbours({x, y: y - 1, d: input[y-1][x]}, i)
         }
-        if(map[y+1]?.[x] === '.' && input[y+1][x] < 9 && input[y+1][x] === d + 1) {
+        if(map[y+1]?.[x] === '.' && input[y+1][x] < 9 && input[y+1][x] > d) {
             map[y+1][x] = i
             checkNeigbours({x, y: y + 1, d: input[y+1][x]}, i)
         }
-        if(map[y]?.[x-1] === '.' && input[y][x-1] < 9 && input[y][x-1] === d + 1) {
+        if(map[y]?.[x-1] === '.' && input[y][x-1] < 9 && input[y][x-1] > d) {
             map[y][x-1] = i
             checkNeigbours({x: x - 1, y, d: input[y][x-1]}, i)
         }
-        if(map[y]?.[x+1] === '.' && input[y][x+1] < 9 && input[y][x+1] === d + 1) {
+        if(map[y]?.[x+1] === '.' && input[y][x+1] < 9 && input[y][x+1] > d) {
             map[y][x+1] = i
             checkNeigbours({x: x + 1, y, d: input[y][x+1]}, i)
         }
     }
-
     lowPoints.forEach(checkNeigbours)
-    log(map.map(l => l.map(c => `${c}`.padStart(3, '0')).join(' ')).join('\r\n'))
+    //log(map.map(l => l.join(' ')).join('\r\n'))
 
     const basins = lowPoints.map((d, i) => map.flat().count(i)).sort((a, b) => b - a)
     //log(basins)
