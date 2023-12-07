@@ -1,6 +1,5 @@
 const fs = require('fs')
 const { clear, log } = require('console')
-const { allowedNodeEnvironmentFlags } = require('process')
 clear()
 log('/'.repeat(100))
 
