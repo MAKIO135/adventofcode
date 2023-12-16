@@ -3,10 +3,12 @@ const { clear, log } = require('console')
 clear()
 log('/'.repeat(100))
 
-fs.readFile('./test', 'utf8', (err, input) => {
+fs.readFile('./input', 'utf8', (err, input) => {
     if (err) throw err
 
-    input = input.split('\r\n')
-    
-    log(input)
+    const hash = s => {
+        return s.split('').reduce((acc, c, i) => (acc + c.charCodeAt(0)) * 17 % 256, 0)
+    }
+
+    log(input.split(',').map(s => hash(s)).reduce((acc, d) => acc + d))
 })

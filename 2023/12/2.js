@@ -23,9 +23,7 @@ fs.readFile('./input', 'utf8', (err, input) => {
         const memoKey = pattern + '|' + counts.join(',')
     
         // Check if the result for the current inputs is already memoized
-        if (memoCache.has(memoKey)) {
-            return memoCache.get(memoKey)
-        }
+        if (memoCache.has(memoKey)) return memoCache.get(memoKey)
     
         let result
     
